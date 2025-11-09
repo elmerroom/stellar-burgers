@@ -1,9 +1,5 @@
 import { useSelector } from '../../services/store';
-import {
-  getIsAuth,
-  getUser,
-  getAuthLoading
-} from '../../services/features/authSlice';
+import { getIsAuth, getAuthLoading } from '../../services/features/authSlice';
 import { Preloader } from '../ui/preloader';
 import { Navigate, useLocation } from 'react-router-dom';
 import { FC } from 'react';

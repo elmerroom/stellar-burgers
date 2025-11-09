@@ -3,10 +3,11 @@ import {
   loginUserApi,
   registerUserApi,
   logoutApi,
-  getUserApi
+  getUserApi,
+  updateUserApi
 } from '../../utils/burger-api';
 import { TUser } from '@utils-types';
-import { deleteCookie } from '../../utils/cookie';
+import { deleteCookie, setCookie } from '../../utils/cookie';
 
 type TAuthState = {
   user: TUser | null;
@@ -26,6 +27,8 @@ export const login = createAsyncThunk(
   'auth/login',
   async ({ email, password }: { email: string; password: string }) => {
     const data = await loginUserApi({ email, password });
+    setCookie('accessToken', data.accessToken);
+    localStorage.setItem('refreshToken', data.refreshToken);
     return data.user;
   }
 );
@@ -56,6 +59,22 @@ export const checkAuth = createAsyncThunk('auth/check', async () => {
   const data = await getUserApi();
   return data.user;
 });
+
+export const updateUser = createAsyncThunk(
+  'auth/update',
+  async ({
+    email,
+    name,
+    password
+  }: {
+    email: string;
+    name: string;
+    password: string;
+  }) => {
+    const data = await updateUserApi({ email, name, password });
+    return data.user;
+  }
+);
 
 const authSlice = createSlice({
   name: 'auth',
@@ -90,14 +109,36 @@ const authSlice = createSlice({
       })
       .addCase(checkAuth.rejected, (state) => {
         state.isAuth = false;
+        state.user = null;
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload;
+        state.isAuth = true;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message || 'Login failed';
       });
   },
   selectors: {
     getIsAuth: (state): boolean => state.isAuth,
     getUser: (state): TUser | null => state.user,
-    getAuthLoading: (state): boolean => state.isLoading
+    getAuthLoading: (state): boolean => state.isLoading,
+    getUserName: (state): string => state.user?.name ?? '',
+    getErrorMessage: (state): string | null => state.error
   }
 });
 
-export const { getIsAuth, getUser, getAuthLoading } = authSlice.selectors;
+export const {
+  getIsAuth,
+  getUser,
+  getAuthLoading,
+  getUserName,
+  getErrorMessage
+} = authSlice.selectors;
 export default authSlice.reducer;

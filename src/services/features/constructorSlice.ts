@@ -32,10 +32,9 @@ export const constructorSlice = createSlice({
         }
       })
     },
-    removeIngredient: (state, action: PayloadAction<string>) => {
-      state.ingredients = state.ingredients.filter(
-        (item) => item.id !== action.payload
-      );
+    removeIngredient: (state, action: PayloadAction<number>) => {
+      const index = action.payload;
+      state.ingredients.splice(index, 1);
     },
     clearConstructor: (state) => {
       state.bun = null;
@@ -57,52 +56,6 @@ export const constructorSlice = createSlice({
       state.ingredients
   }
 });
-
-// export const constructorSlice = createSlice({
-//   name: 'burgerConstructor',
-//   initialState,
-//   reducers: {
-//     addIngredient: (state, action: PayloadAction<TConstructorIngredient>) => {
-//       if (action.payload.type === 'bun') {
-//         state.bun = action.payload;
-//       } else {
-//         state.ingredients.push(action.payload);
-//       }
-//     },
-//     removeIngredient: (state, action: PayloadAction<string>) => {
-//       state.ingredients = state.ingredients.filter(
-//         (item) => item.id !== action.payload
-//       );
-//     },
-//     clearConstructor: (state) => {
-//       state.bun = null;
-//       state.ingredients = [];
-//     }
-//     // {
-//     // reducer:
-//     // (state, action: PayloadAction<TConstructorIngredient>) => {
-//     //   if (action.payload.type === 'bun') {
-//     //     state.bun = action.payload;
-//     //   } else {
-//     //     state.ingredients.push(action.payload);
-//     //   }
-//     // },
-//     // prepare: (
-//     //   ingredient: TIngredient
-//     // ): { payload: TConstructorIngredient } => ({
-//     //   payload: {
-//     //     ...ingredient,
-//     //     id: crypto.randomUUID()
-//     //   }
-//     // })
-//   },
-//   selectors: {
-//     getConstructorSelector: (state): TConstructorState => state,
-//     getConstructorBun: (state): TIngredient | null => state.bun,
-//     getConstructorIngredients: (state): TConstructorIngredient[] =>
-//       state.ingredients
-//   }
-// });
 
 export const {
   addIngredient,
