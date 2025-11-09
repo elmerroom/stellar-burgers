@@ -9,9 +9,8 @@ import {
 } from '../../services/features/orderSlice';
 import { getIngredientsSelector } from '../../services/features/ingredientsSlice';
 import { useParams } from 'react-router-dom';
-// import { useEffect } from 'react';
 
-export const OrderInfo: FC = () => {
+export const OrderInfo: FC<{ orderNumber?: string }> = ({ orderNumber }) => {
   const dispatch = useDispatch();
   const { number } = useParams<{ number: string }>();
   const orderData = useSelector(getModalOrder);
@@ -69,5 +68,17 @@ export const OrderInfo: FC = () => {
     return <Preloader />;
   }
 
-  return <OrderInfoUI orderInfo={orderInfo} />;
+  return (
+    <>
+      {orderNumber && (
+        <p
+          className='undefined text text_type_main-large mt-10'
+          style={{ textAlign: 'center' }}
+        >
+          #{orderNumber}
+        </p>
+      )}
+      <OrderInfoUI orderInfo={orderInfo} />
+    </>
+  );
 };

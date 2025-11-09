@@ -11,7 +11,13 @@ import {
 } from '@pages';
 import '../../index.css';
 import styles from './app.module.css';
-import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
+import {
+  Route,
+  Routes,
+  useNavigate,
+  useLocation,
+  useMatch
+} from 'react-router-dom';
 import { useDispatch } from '../../services/store';
 
 import {
@@ -34,6 +40,10 @@ function App() {
   const dispatch = useDispatch();
   const location = useLocation();
   const backgroundLocation = location.state?.background;
+
+  const profileMatch = useMatch('/profile/orders/:number')?.params.number;
+  const feedMatch = useMatch('/feed/:number')?.params.number;
+  const orderNumber = profileMatch || feedMatch;
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -101,13 +111,16 @@ function App() {
           }
         />
         <Route path='*' element={<NotFound404 />} />
-        <Route path='/feed/:number' element={<OrderInfo />} />
-        <Route path='/ingredients/:id' element={<ConstructorPage />} />
+        <Route
+          path='/feed/:number'
+          element={<OrderInfo orderNumber={orderNumber} />}
+        />
+        <Route path='/ingredients/:id' element={<IngredientDetails />} />
         <Route
           path='/profile/orders/:number'
           element={
             <ProtectedRoute>
-              <OrderInfo />
+              <OrderInfo orderNumber={orderNumber} />
             </ProtectedRoute>
           }
         />
@@ -118,7 +131,7 @@ function App() {
           <Route
             path='/feed/:number'
             element={
-              <Modal title='' onClose={closeModal}>
+              <Modal title={`#${orderNumber}`} onClose={closeModal}>
                 <OrderInfo />
               </Modal>
             }
@@ -126,7 +139,7 @@ function App() {
           <Route
             path='/ingredients/:id'
             element={
-              <Modal title='' onClose={closeModal}>
+              <Modal title='Детали ингредиента' onClose={closeModal}>
                 <IngredientDetails />
               </Modal>
             }
@@ -135,7 +148,7 @@ function App() {
             path='/profile/orders/:number'
             element={
               <ProtectedRoute>
-                <Modal title='' onClose={closeModal}>
+                <Modal title={`#${orderNumber}`} onClose={closeModal}>
                   <OrderInfo />
                 </Modal>
               </ProtectedRoute>
