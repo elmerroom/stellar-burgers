@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TIngredient, TConstructorIngredient } from '../../utils/types';
+// import { nanoid } from 'nanoid';
 
 type TConstructorState = {
   bun: TIngredient | null;
@@ -25,12 +26,20 @@ export const constructorSlice = createSlice({
       },
       prepare: (
         ingredient: TIngredient
-      ): { payload: TConstructorIngredient } => ({
-        payload: {
-          ...ingredient,
-          id: crypto.randomUUID()
+      ): { payload: TConstructorIngredient } => {
+        if (ingredient.type === 'bun') {
+          return { payload: ingredient as TConstructorIngredient };
         }
-      })
+
+        return {
+          payload: {
+            ...ingredient,
+            id:
+              crypto.randomUUID?.() ??
+              `fallback-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+          }
+        };
+      }
     },
     removeIngredient: (state, action: PayloadAction<number>) => {
       const index = action.payload;
