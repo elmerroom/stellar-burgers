@@ -15,7 +15,6 @@ describe('constructorSlice', () => {
   beforeEach(() => {
     counter = 0;
 
-    // Вот это — 100% работает
     Object.defineProperty(global, 'crypto', {
       value: {
         randomUUID: () => `mock-uuid-${++counter}`
@@ -77,7 +76,7 @@ describe('constructorSlice', () => {
     ingredients: []
   };
 
-  test('должен добавлять булку (без id)', () => {
+  test('Добавляет булку', () => {
     const action = addIngredient(bun);
     const state = constructorReducer(initialState, action);
 
@@ -86,7 +85,7 @@ describe('constructorSlice', () => {
     expect(state.ingredients).toEqual([]);
   });
 
-  test('должен добавлять начинку с уникальным id', () => {
+  test('Добавляет начинку с уникальным id', () => {
     const action = addIngredient(sauce);
     const state = constructorReducer(initialState, action);
 
@@ -98,7 +97,7 @@ describe('constructorSlice', () => {
     });
   });
 
-  test('должен добавлять несколько начинок', () => {
+  test('Добавление нескольких начинок', () => {
     let state = constructorReducer(initialState, addIngredient(sauce));
     state = constructorReducer(state, addIngredient(main));
 
@@ -124,13 +123,13 @@ describe('constructorSlice', () => {
     expect(newState.ingredients[1].id).toBe('3');
   });
 
-  test('moveIngredient — перемещает элементы', () => {
+  test('moveIngredient — перемещает ингредиенты', () => {
     const stateWithItems = {
       bun: null,
       ingredients: [
-        { ...sauce, id: 'a' }, // index 0
-        { ...main, id: 'b' }, // index 1 → перетащим вверх
-        { ...sauce, id: 'c' } // index 2
+        { ...sauce, id: 'a' },
+        { ...main, id: 'b' },
+        { ...sauce, id: 'c' }
       ]
     };
 
@@ -139,12 +138,12 @@ describe('constructorSlice', () => {
       moveIngredient({ from: 1, to: 0 })
     );
 
-    expect(newState.ingredients[0].id).toBe('b'); // main теперь первый
+    expect(newState.ingredients[0].id).toBe('b');
     expect(newState.ingredients[1].id).toBe('a');
     expect(newState.ingredients[2].id).toBe('c');
   });
 
-  test('moveIngredient — перемещение вниз тоже работает', () => {
+  test('moveIngredient — перемещение вниз', () => {
     const stateWithItems = {
       bun: null,
       ingredients: [
@@ -164,7 +163,7 @@ describe('constructorSlice', () => {
     expect(newState.ingredients[2].id).toBe('a');
   });
 
-  test('clearConstructor — полностью очищает конструктор', () => {
+  test('clearConstructor —  очищает конструктор', () => {
     const filledState = {
       bun: bun,
       ingredients: [

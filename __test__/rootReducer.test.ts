@@ -1,10 +1,8 @@
-import rootReducer from '../src/services/rootReducer';
 import { describe, expect, test } from '@jest/globals';
 import store from '../src/services/store';
 
 describe('rootReducer initialization', () => {
-  test('правильно инициализирует состояние при @@INIT', () => {
-    // const initialState = rootReducer(undefined, { type: '@@INIT' } as any);
+  test('Проверка инициализация состояния корневого редюсера', () => {
     const initialState = store.getState();
 
     expect(initialState).toEqual({
@@ -39,8 +37,6 @@ describe('rootReducer initialization', () => {
       }
     });
 
-    // Дополнительно: проверяем, что состояние — объект и не undefined
     expect(initialState).toBeDefined();
-    expect(typeof initialState).toBe('object');
   });
 });

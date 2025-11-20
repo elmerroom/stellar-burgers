@@ -8,11 +8,11 @@ import authReducer, {
 import { TUser } from '../src/utils/types';
 
 const mockUser: TUser = {
-  email: 'cosmo@stellar.burgers',
-  name: 'Космо Бургер'
+  email: 'test@mail.ru',
+  name: 'Amores'
 };
 
-describe('authSlice — полное покрытие async-операций', () => {
+describe('authSlice — initialState', () => {
   const initialState = {
     user: null,
     isAuth: false,
@@ -27,7 +27,7 @@ describe('authSlice — полное покрытие async-операций', (
       expect(state.error).toBe(null);
     });
 
-    it('fulfilled → сохраняет пользователя, isAuth = true', () => {
+    it('fulfilled → user, isAuth = true', () => {
       const state = authReducer(initialState, {
         type: login.fulfilled.type,
         payload: mockUser
@@ -37,7 +37,7 @@ describe('authSlice — полное покрытие async-операций', (
       expect(state.isLoading).toBe(false);
     });
 
-    it('rejected → сохраняет ошибку, isLoading = false', () => {
+    it('rejected → eror, isLoading = false', () => {
       const state = authReducer(initialState, {
         type: login.rejected.type,
         error: { message: 'Неверный пароль' }
@@ -75,7 +75,7 @@ describe('authSlice — полное покрытие async-операций', (
   });
 
   describe('checkAuth', () => {
-    it('fulfilled → восстанавливает авторизацию', () => {
+    it('fulfilled → проверяет авторизацию', () => {
       const state = authReducer(initialState, {
         type: checkAuth.fulfilled.type,
         payload: mockUser
@@ -84,7 +84,7 @@ describe('authSlice — полное покрытие async-операций', (
       expect(state.isAuth).toBe(true);
     });
 
-    it('rejected → сбрасывает авторизацию', () => {
+    it('rejected → ошибка авторизации', () => {
       const state = authReducer(
         { ...initialState, isAuth: true, user: mockUser },
         { type: checkAuth.rejected.type }
@@ -102,8 +102,8 @@ describe('authSlice — полное покрытие async-операций', (
     };
 
     const updatedUser = {
-      email: 'new@stellar.burgers',
-      name: 'Обновлённый Космо'
+      email: 'test2@mail.ru',
+      name: 'Amores'
     };
 
     it('pending → isLoading = true, error = null', () => {
@@ -124,7 +124,7 @@ describe('authSlice — полное покрытие async-операций', (
       expect(state.isLoading).toBe(false);
     });
 
-    it('rejected → сохраняет ошибку', () => {
+    it('rejected → eror', () => {
       const state = authReducer(currentUserState, {
         type: updateUser.rejected.type,
         error: { message: 'Email уже занят' }

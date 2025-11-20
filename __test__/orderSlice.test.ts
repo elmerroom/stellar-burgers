@@ -80,7 +80,7 @@ describe('orderSlice — initialState', () => {
       expect(state.ordersLoading).toBe(false);
     });
 
-    it('rejected → ordersError = сообщение, ordersLoading = false', () => {
+    it('rejected → ordersError, ordersLoading = false', () => {
       const state = orderReducer(initialState, {
         type: getAllOrders.rejected.type,
         error: { message: 'Сервер упал' }
@@ -99,7 +99,7 @@ describe('orderSlice — initialState', () => {
       expect(state.error).toBe(null);
     });
 
-    it('fulfilled → сохраняет modalOrders, isLoading = false', () => {
+    it('fulfilled → modalOrders, isLoading = false', () => {
       const state = orderReducer(initialState, {
         type: getOrderByNumber.fulfilled.type,
         payload: mockOrder
@@ -108,7 +108,7 @@ describe('orderSlice — initialState', () => {
       expect(state.isLoading).toBe(false);
     });
 
-    it('rejected → error = сообщение, isLoading = false', () => {
+    it('rejected → error, isLoading = false', () => {
       const state = orderReducer(initialState, {
         type: getOrderByNumber.rejected.type,
         error: { message: 'Заказ не найден' }
@@ -127,7 +127,7 @@ describe('orderSlice — initialState', () => {
       expect(state.error).toBe(null);
     });
 
-    it('fulfilled → сохраняет userOrders, isLoading = false', () => {
+    it('fulfilled →  userOrders, isLoading = false', () => {
       const state = orderReducer(initialState, {
         type: getUserOrders.fulfilled.type,
         payload: [mockOrder]
@@ -136,7 +136,7 @@ describe('orderSlice — initialState', () => {
       expect(state.isLoading).toBe(false);
     });
 
-    it('rejected → error = сообщение, isLoading = false', () => {
+    it('rejected → error, isLoading = false', () => {
       const state = orderReducer(initialState, {
         type: getUserOrders.rejected.type,
         error: { message: 'Токен истёк' }

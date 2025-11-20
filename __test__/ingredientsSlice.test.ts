@@ -50,7 +50,7 @@ describe('ingredientsSlice', () => {
     });
   });
 
-  test('getIngredients fulfilled — сохраняет ингредиенты и сбрасывает loading', () => {
+  test('getIngredients fulfilled — сохраняет ингредиенты, loading = false', () => {
     const action = {
       type: getIngredients.fulfilled.type,
       payload: mockIngredients
@@ -64,7 +64,7 @@ describe('ingredientsSlice', () => {
     });
   });
 
-  test('getIngredients rejected — устанавливает error и сбрасывает loading', () => {
+  test('getIngredients rejected —  error, loading = false', () => {
     const action = {
       type: getIngredients.rejected.type,
       error: { message: 'Failed to fetch' }
