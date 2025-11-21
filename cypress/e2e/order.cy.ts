@@ -15,7 +15,7 @@ describe('Создание заказа — полный флоу', () => {
     cy.setCookie('accessToken', 'mock-access-token');
     window.localStorage.setItem('refreshToken', 'mock-refresh-token');
 
-    cy.visit('http://localhost:4000');
+    cy.visit('/');
     cy.wait('@getIngredients');
   });
 

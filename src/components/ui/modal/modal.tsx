@@ -24,7 +24,7 @@ export const ModalUI: FC<TModalUIProps> = memo(
         </div>
         <div className={styles.content}>{children}</div>
       </div>
-      <ModalOverlayUI data-testid='modal-overlay' onClick={onClose} />
+      <ModalOverlayUI onClick={onClose} />
     </>
   )
 );

@@ -3,7 +3,7 @@ describe('Burger Constructor — добавление ингредиентов �
     cy.intercept('GET', '**/api/ingredients', {
       fixture: 'ingredients.json'
     }).as('getIngredients');
-    cy.visit('http://localhost:4000/');
+    cy.visit('/');
     cy.wait('@getIngredients');
   });
 

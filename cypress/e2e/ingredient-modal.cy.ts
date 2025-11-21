@@ -4,16 +4,22 @@ describe('Модальное окно ингредиента — открыти�
       fixture: 'ingredients.json'
     }).as('getIngredients');
 
-    cy.visit('http://localhost:4000');
+    cy.visit('/');
     cy.wait('@getIngredients');
   });
 
   it('открывает модалку ингредиента и закрывает по крестику', () => {
-    cy.contains('Краторная булка N-200i').closest('a').click();
+    const ingredientName = 'Краторная булка N-200i';
 
-    cy.get('[data-testid="modal"]').should('exist');
-    cy.contains('Детали ингредиента').should('be.visible');
-    cy.contains('Калории').should('be.visible');
+    cy.contains(ingredientName).closest('a').click();
+
+    cy.get('[data-testid="modal"]')
+      .should('exist')
+      .within(() => {
+        cy.contains('Детали ингредиента').should('be.visible');
+        cy.contains(ingredientName).should('be.visible');
+        cy.contains('Калории').should('be.visible');
+      });
 
     cy.get('[data-testid="CloseButton"]').click();
 
@@ -25,7 +31,7 @@ describe('Модальное окно ингредиента — открыти�
 
     cy.contains('Детали ингредиента').should('be.visible');
 
-    cy.get('body').click('topLeft');
+    cy.get('[data-testid="modal-overlay"]').click(10, 10, { force: true });
 
     cy.get('[data-testid="modal"]').should('not.exist');
   });
