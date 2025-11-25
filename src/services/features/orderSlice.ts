@@ -105,7 +105,7 @@ export const orderSlice = createSlice({
       })
       .addCase(getAllOrders.rejected, (state, action) => {
         state.ordersLoading = false;
-        state.error = action.error.message ?? 'Unknown error';
+        state.ordersError = action.error.message ?? 'Unknown error';
       })
       .addCase(getOrderByNumber.pending, (state) => {
         state.isLoading = true;
